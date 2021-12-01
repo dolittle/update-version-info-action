@@ -28,7 +28,7 @@ export class ReplacementValues implements IReplacementValues {
             case 'patch':
                 return this._version.patch.toString();
             case 'prerelease':
-                return this._version.prerelease.toString();
+                return this._version.prerelease.join('.');
             case 'full':
                 return this._version.format();
         }
