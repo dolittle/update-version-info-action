@@ -123,10 +123,9 @@ export class Inputs {
             case 'patch':
                 return 'number';
             case 'prerelease':
+            case 'full':
                 return 'string';
         }
-
-        throw new Error(`No default replacement type defined for ${replacement}`);
     }
 
     private static getDefaultReplacementMatch(replacement: Replacement): string {
@@ -139,9 +138,9 @@ export class Inputs {
                 return '368';
             case 'prerelease':
                 return 'PRERELEASE';
+            case 'full':
+                return '377.389.368-PRERELEASE';
         }
-
-        throw new Error(`No default replacement match defined for ${replacement}`);
     }
 
     private static splitTrimIgnoreEmpty(input: string, separator: string | RegExp): string[] {
