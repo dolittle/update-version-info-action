@@ -7,16 +7,20 @@ import { Replacer } from './Replacer';
  * Represents a {@link Replacer} that replaces exact matches of a string with another string.
  */
 export class ExactReplacer extends Replacer {
-
     constructor(
         private readonly _match: string,
-        _replacement: string
+        private readonly _replacement: string
     ) {
-        super(_replacement);
+        super();
     }
 
-    protected get expression(): RegExp {
-        return new RegExp(`${this._match}`);
+    /** @inheritdoc */
+    protected getExpressionFor(): RegExp {
+        return new RegExp(this._match);
     }
 
+    /** @inheritdoc */
+    protected getReplacementFor(): string {
+        return this._replacement;
+    }
 }

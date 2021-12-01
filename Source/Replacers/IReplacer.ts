@@ -4,12 +4,13 @@
 import { ReplacerResult } from './ReplacerResult';
 
 /**
- * Defines a system that can replace contents.
+ * Defines a system that can replace contents of a file.
  */
 export interface IReplacer {
     /**
      * Executes the replacements on the provided contents.
+     * @param path The the path of the file to modify.
      * @param contents The contents to modify with replacements.
      */
-    execute(contents: string): ReplacerResult;
+    execute(path: string, contents: string): ReplacerResult;
 }

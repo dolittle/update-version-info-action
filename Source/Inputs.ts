@@ -128,7 +128,7 @@ export class Inputs {
             case 'minor':
                 return '389';
             case 'patch':
-                return '386';
+                return '368';
             case 'prerelease':
                 return 'PRERELEASE';
         }

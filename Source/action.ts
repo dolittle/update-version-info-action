@@ -5,6 +5,7 @@ import { setFailed } from '@actions/core';
 import { Logger } from '@dolittle/github-actions.shared.logging';
 
 import { Inputs } from './inputs';
+import { ReplacementValues } from './ReplacementValues';
 import { ReplacerFactory } from './ReplacerFactory';
 import { ExactReplacer } from './Replacers/ExactReplacer';
 import { VersionInfoFileLoader } from './VersionInfoFileLoader';
@@ -18,7 +19,8 @@ export async function run() {
         inputs.log(logger);
 
         const loader = new VersionInfoFileLoader(logger);
-        const replacerFactory = new ReplacerFactory(logger);
+        const values = new ReplacementValues(inputs.version);
+        const replacerFactory = new ReplacerFactory(values, logger);
 
         const files = await loader.loadAll(inputs.filesToUpdate);
 
@@ -26,6 +28,7 @@ export async function run() {
 
         for (const file of files) {
             file.execute(replacers);
+            await file.persist();
         }
 
         // Put your code in here

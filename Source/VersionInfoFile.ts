@@ -62,7 +62,7 @@ export class VersionInfoFile implements IVersionInfoFile {
         }
 
         for (const replacer of replacers) {
-            const result = replacer.execute(this._modifiedContents!);
+            const result = replacer.execute(this.path, this._modifiedContents!);
             this._modifiedContents = result.contents;
             this.results.push(result);
         }
@@ -72,6 +72,7 @@ export class VersionInfoFile implements IVersionInfoFile {
     persist(): Promise<void> {
         return new Promise((resolve, reject) => {
             console.log('Will store new contents for', this.path, this._originalContents, this._modifiedContents);
+            resolve();
         });
     }
 }
