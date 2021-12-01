@@ -5,7 +5,7 @@ import { setFailed } from '@actions/core';
 import { Logger } from '@dolittle/github-actions.shared.logging';
 import { Coordinator } from './Coordinator';
 
-import { Inputs } from './inputs';
+import { Inputs } from './Inputs';
 import { ReplacementValues } from './ReplacementValues';
 import { ReplacerFactory } from './ReplacerFactory';
 import { ValidatePerformedReplacements } from './ValidatePerformedReplacements';
