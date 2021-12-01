@@ -71,8 +71,19 @@ export class VersionInfoFile implements IVersionInfoFile {
     /** @inheritdoc */
     persist(): Promise<void> {
         return new Promise((resolve, reject) => {
-            console.log('Will store new contents for', this.path, this._originalContents, this._modifiedContents);
-            resolve();
+            if (!this._hasLoadedContents) {
+                reject(new Error(`The file ${this.path} has not been loaded. It needs to be loaded before it can be persisted.`));
+            }
+
+            this._logger.debug(`Writing new contents of file to ${this.path}`);
+
+            fs.writeFile(this.path, this._modifiedContents!, { encoding: 'utf-8' }, (error) => {
+                if (!error) {
+                    resolve();
+                } else {
+                    reject(error);
+                }
+            });
         });
     }
 
