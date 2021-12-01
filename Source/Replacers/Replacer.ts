@@ -1,6 +1,8 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import { Replacement } from '../Configuration/Replacement';
+import { PerformedReplacement } from '../PerformedReplacement';
 import { IReplacer } from './IReplacer';
 import { ReplacerResult } from './ReplacerResult';
 
@@ -8,10 +10,14 @@ import { ReplacerResult } from './ReplacerResult';
  * Represents an abstract implementation of {@link IReplacer}.
  */
 export abstract class Replacer implements IReplacer {
+    constructor(
+        protected readonly replacement: Replacement
+    ) {}
+
     /** @inheritdoc */
     execute(path: string, contents: string): ReplacerResult {
         let modified = contents;
-        let replacements = 0;
+        const replacements: PerformedReplacement[] = [];
 
         while (true) {
             const match = this.getExpressionFor(path).exec(modified);
@@ -20,11 +26,17 @@ export abstract class Replacer implements IReplacer {
                 break;
             }
 
-            replacements += 1;
-            modified = modified.slice(0, match.index) + this.getReplacementFor(path) + modified.slice(match.index + match[0].length);
+            const replaceWith = this.getValueFor(path);
+            modified = modified.slice(0, match.index) + replaceWith + modified.slice(match.index + match[0].length);
+
+            replacements.push({
+                replacement: this.replacement,
+                before: match[0],
+                after: replaceWith,
+            });
         }
 
-        return { contents: modified, replacements };
+        return { replacements, contents: modified };
     }
 
     /**
@@ -37,5 +49,5 @@ export abstract class Replacer implements IReplacer {
      * Get the value to replace matches with for the specified path.
      * @param path The path of the file to replace contents of.
      */
-    protected abstract getReplacementFor(path: string): string;
+    protected abstract getValueFor(path: string): string;
 }

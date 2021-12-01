@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import { Replacement } from '../Configuration/Replacement';
 import { Replacer } from './Replacer';
 
 /**
@@ -8,10 +9,11 @@ import { Replacer } from './Replacer';
  */
 export class ExactReplacer extends Replacer {
     constructor(
+        replacement: Replacement,
         private readonly _match: string,
-        private readonly _replacement: string
+        private readonly _value: string
     ) {
-        super();
+        super(replacement);
     }
 
     /** @inheritdoc */
@@ -20,7 +22,7 @@ export class ExactReplacer extends Replacer {
     }
 
     /** @inheritdoc */
-    protected getReplacementFor(): string {
-        return this._replacement;
+    protected getValueFor(): string {
+        return this._value;
     }
 }

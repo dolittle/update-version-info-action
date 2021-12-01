@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import { Replacement } from '../Configuration/Replacement';
 import { Replacer } from './Replacer';
 
 /**
@@ -8,10 +9,11 @@ import { Replacer } from './Replacer';
  */
 export abstract class LanguageSpecificReplacer extends Replacer {
     constructor(
+        replacement: Replacement,
         protected readonly _match: string,
-        protected readonly _replacement: string
+        protected readonly _value: string
     ) {
-        super();
+        super(replacement);
     }
 
     /**
@@ -27,7 +29,7 @@ export abstract class LanguageSpecificReplacer extends Replacer {
     }
 
     /** @inheritdoc */
-    protected getReplacementFor(path: string): string {
-        return this.wrapLiteral(this._replacement, path);
+    protected getValueFor(path: string): string {
+        return this.wrapLiteral(this._value, path);
     }
 }

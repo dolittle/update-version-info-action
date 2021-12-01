@@ -1,17 +1,17 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import { PerformedReplacement } from './PerformedReplacement';
 import { IReplacer } from './Replacers/IReplacer';
-import { ReplacerResult } from './Replacers/ReplacerResult';
 
 /**
  * Defines a version info file where replacments can be executed and the changes persisted.
  */
 export interface IVersionInfoFile {
     /**
-     * Gets the results of the executed replacements.
+     * Gets the list of {@link PerformedReplacement} that has occured from executing replacers.
      */
-    readonly results: readonly ReplacerResult[];
+    readonly performed: readonly PerformedReplacement[];
 
     /**
      * Executes the provided replacers and stores the results.

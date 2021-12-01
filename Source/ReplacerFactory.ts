@@ -27,13 +27,13 @@ export class ReplacerFactory implements IReplacerFactory {
         switch (type) {
             case 'exact':
                 this._logger.debug(`Creating ${ExactReplacer.name} for replacement ${replacement}`);
-                return new ExactReplacer(match, valueToReplace);
+                return new ExactReplacer(replacement, match, valueToReplace);
             case 'string':
                 this._logger.debug(`Creating ${StringReplacer.name} for replacement ${replacement}`);
-                return new StringReplacer(match, valueToReplace);
+                return new StringReplacer(replacement, match, valueToReplace);
             case 'number':
                 this._logger.debug(`Creating ${NumberReplacer.name} for replacement ${replacement}`);
-                return new NumberReplacer(match, valueToReplace);
+                return new NumberReplacer(replacement, match, valueToReplace);
         }
     }
 }

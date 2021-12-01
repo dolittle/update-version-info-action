@@ -5,8 +5,8 @@ import { Logger } from '@dolittle/github-actions.shared.logging';
 import fs from 'fs';
 
 import { IReplacer } from './Replacers/IReplacer';
-import { ReplacerResult } from './Replacers/ReplacerResult';
 import { IVersionInfoFile } from './IVersionInfoFile';
+import { PerformedReplacement } from './PerformedReplacement';
 
 /**
  * Represents an implementation of {@link IVersionInfoFile} that uses the local file system.
@@ -17,7 +17,7 @@ export class VersionInfoFile implements IVersionInfoFile {
     private _modifiedContents: string | undefined;
 
     /** @inheritdoc */
-    readonly results: ReplacerResult[] = [];
+    readonly performed: PerformedReplacement[] = [];
 
     /**
      * Initialises a new instance of the {@link VersionInfoFile} class.
@@ -64,7 +64,7 @@ export class VersionInfoFile implements IVersionInfoFile {
         for (const replacer of replacers) {
             const result = replacer.execute(this.path, this._modifiedContents!);
             this._modifiedContents = result.contents;
-            this.results.push(result);
+            this.performed.push(...result.replacements);
         }
     }
 
@@ -74,5 +74,10 @@ export class VersionInfoFile implements IVersionInfoFile {
             console.log('Will store new contents for', this.path, this._originalContents, this._modifiedContents);
             resolve();
         });
+    }
+
+    /** @inheritdoc */
+    toString(): string {
+        return this.path;
     }
 }

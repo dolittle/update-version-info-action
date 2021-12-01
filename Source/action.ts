@@ -8,6 +8,7 @@ import { Inputs } from './inputs';
 import { ReplacementValues } from './ReplacementValues';
 import { ReplacerFactory } from './ReplacerFactory';
 import { ExactReplacer } from './Replacers/ExactReplacer';
+import { ValidatePerformedReplacements } from './ValidatePerformedReplacements';
 import { VersionInfoFileLoader } from './VersionInfoFileLoader';
 
 const logger = new Logger();
@@ -21,6 +22,7 @@ export async function run() {
         const loader = new VersionInfoFileLoader(logger);
         const values = new ReplacementValues(inputs.version);
         const replacerFactory = new ReplacerFactory(values, logger);
+        const validator = new ValidatePerformedReplacements(inputs.replacements.map(_ => _.replacement), false, false);
 
         const files = await loader.loadAll(inputs.filesToUpdate);
 
@@ -28,6 +30,13 @@ export async function run() {
 
         for (const file of files) {
             file.execute(replacers);
+        }
+
+        for (const file of files) {
+            validator.validateFile(file);
+        }
+
+        for (const file of files) {
             await file.persist();
         }
 

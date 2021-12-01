@@ -1,7 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { getInput } from '@actions/core';
+import { getBooleanInput, getInput } from '@actions/core';
 import semver, { SemVer } from 'semver';
 import { Logger } from '@dolittle/github-actions.shared.logging';
 import { ReplacementConfig } from './Configuration/ReplacementConfig';
@@ -17,11 +17,15 @@ export class Inputs {
      * @param version The version to update the version info files with.
      * @param filesToUpdate The version info files to update.
      * @param replacements The replacements to perform.
+     * @param allowMultipleReplacements Whether or not to allow multiple replacements to occur in a file.
+     * @param allowNoReplacements Whether or not to allow no replacements to occur in a file.
      */
     constructor(
         readonly version: SemVer,
         readonly filesToUpdate: string[],
-        readonly replacements: ReplacementConfig[]
+        readonly replacements: ReplacementConfig[],
+        readonly allowMultipleReplacements: boolean,
+        readonly allowNoReplacements: boolean
     ) {}
 
     /**
@@ -36,6 +40,8 @@ export class Inputs {
         this.replacements.forEach((replacement => {
             logger.info(`    ${replacement.replacement} will replace ${replacement.match} using ${replacement.type}`);
         }));
+        logger.info(`  allow-multiple-replacements: ${this.allowMultipleReplacements}`);
+        logger.info(`  allow-no-replacements: ${this.allowNoReplacements}`);
     }
 
     /**
@@ -46,7 +52,9 @@ export class Inputs {
         return new Inputs(
             this.getVersion(),
             this.getFilesToUpdate(),
-            this.getReplacements()
+            this.getReplacements(),
+            this.getOptionalBooleanInput('allow-multiple-replacements'),
+            this.getOptionalBooleanInput('allow-no-replacements')
         );
     }
 
@@ -141,5 +149,13 @@ export class Inputs {
         const trimmed = split.map(_ => _.trim());
         const filtered = trimmed.filter(_ => _.length > 0);
         return filtered;
+    }
+
+    private static getOptionalBooleanInput(name: string): boolean {
+        if (getInput(name, { required: false }) === '') {
+            return false;
+        }
+
+        return getBooleanInput(name);
     }
 }
