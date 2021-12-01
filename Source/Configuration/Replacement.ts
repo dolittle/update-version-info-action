@@ -4,7 +4,7 @@
 /**
  * Represents a replacement that can be performed in a version info file.
  */
-export type Replacement = 'MAJOR' | 'MINOR' | 'PATCH' | 'PRERELEASE' | 'FULL';
+export type Replacement = 'major' | 'minor' | 'patch' | 'prerelease' | 'full';
 
 /**
  * Checks whether the provided value is a {@link Replacement}.
@@ -13,18 +13,13 @@ export type Replacement = 'MAJOR' | 'MINOR' | 'PATCH' | 'PRERELEASE' | 'FULL';
  */
 export const isReplacement = (value: string): value is Replacement => {
     switch (value) {
-        case 'MAJOR':
-        case 'MINOR':
-        case 'PATCH':
-        case 'PRERELEASE':
-        case 'FULL':
+        case 'major':
+        case 'minor':
+        case 'patch':
+        case 'prerelease':
+        case 'full':
             return true;
         default:
             return false;
     }
 };
-
-/**
- * Represents a set of replacements that can be performed in a version info file.
- */
-export type Replacements = Replacement[];

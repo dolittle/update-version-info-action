@@ -4,7 +4,9 @@
 import { getInput } from '@actions/core';
 import semver, { SemVer } from 'semver';
 import { Logger } from '@dolittle/github-actions.shared.logging';
-import { isReplacement, Replacements } from './Replacements';
+import { ReplacementConfig } from './Configuration/ReplacementConfig';
+import { isReplacement, Replacement } from './Configuration/Replacement';
+import { isReplacementType, ReplacementType } from './Configuration/ReplacementType';
 
 /**
  * Represents the inputs to the action.
@@ -19,7 +21,7 @@ export class Inputs {
     constructor(
         readonly version: SemVer,
         readonly filesToUpdate: string[],
-        readonly replacements: Replacements
+        readonly replacements: ReplacementConfig[]
     ) {}
 
     /**
@@ -28,9 +30,12 @@ export class Inputs {
      */
     log(logger: Logger): void {
         logger.info('Inputs:');
-        logger.info(` version: '${this.version}'`);
-        logger.info(` files-to-update: '${this.filesToUpdate.join(', ')}'`);
-        logger.info(` replacements: '${this.replacements.join(', ')}'`);
+        logger.info(`  version: '${this.version}'`);
+        logger.info(`  files-to-update: '${this.filesToUpdate.join(', ')}'`);
+        logger.info('  replacements:');
+        this.replacements.forEach((replacement => {
+            logger.info(`    ${replacement.replacement} will replace ${replacement.match} using ${replacement.type}`);
+        }));
     }
 
     /**
@@ -61,26 +66,75 @@ export class Inputs {
         return this.splitTrimIgnoreEmpty(input, /[,\n]/);
     }
 
-    private static getReplacements(): Replacements {
+    private static getReplacements(): ReplacementConfig[] {
         const input = getInput('replacements', { required: false });
 
-        const replacements: Replacements = [];
+        const configs: ReplacementConfig[] = [];
         for (const replacement of this.splitTrimIgnoreEmpty(input, ','))
         {
             if (isReplacement(replacement)) {
-                replacements.push(replacement);
+                const config = this.getReplacementConfig(replacement);
+                configs.push(config);
             } else {
                 throw new Error(`The provided replacement ${replacement} is not a valid replacement`);
             }
         }
 
-        if (replacements.length > 0) {
-            return replacements;
+        if (configs.length > 0) {
+            return configs;
         }
 
-        return [ 'MAJOR', 'MINOR', 'PATCH', 'PRERELEASE' ];
+        return [
+            this.getReplacementConfig('major'),
+            this.getReplacementConfig('minor'),
+            this.getReplacementConfig('patch'),
+            this.getReplacementConfig('prerelease'),
+        ];
     }
 
+    private static getReplacementConfig(replacement: Replacement): ReplacementConfig {
+        const typeInput = getInput(replacement + '-type', { required: false }).trim();
+
+        if (typeInput !== '' && !isReplacementType(typeInput)) {
+            throw new Error(`The provided replacement type ${typeInput} for ${replacement} is not a valid replacement type`);
+        }
+
+        const type = typeInput !== '' ? typeInput : this.getDefaultReplacementType(replacement);
+
+        const matchInput = getInput(replacement + '-match', { required: false }).trim();
+
+        const match = matchInput !== '' ? matchInput : this.getDefaultReplacementMatch(replacement);
+
+        return { replacement, type, match };
+    }
+
+    private static getDefaultReplacementType(replacement: Replacement): ReplacementType {
+        switch (replacement) {
+            case 'major':
+            case 'minor':
+            case 'patch':
+                return 'number';
+            case 'prerelease':
+                return 'string';
+        }
+
+        throw new Error(`No default replacement type defined for ${replacement}`);
+    }
+
+    private static getDefaultReplacementMatch(replacement: Replacement): string {
+        switch (replacement) {
+            case 'major':
+                return '377';
+            case 'minor':
+                return '389';
+            case 'patch':
+                return '386';
+            case 'prerelease':
+                return 'PRERELEASE';
+        }
+
+        throw new Error(`No default replacement match defined for ${replacement}`);
+    }
 
     private static splitTrimIgnoreEmpty(input: string, separator: string | RegExp): string[] {
         const split = input.split(separator);
