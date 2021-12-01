@@ -1,0 +1,54 @@
+name: Update VersionInfo Files
+description: Updates version info in source files before building to include the build information in the released binaries.
+inputs:
+  version:
+    description: Version of the release to use to replace values in the specified files.
+    required: true
+  files-to-update:
+    description: A comma or newline separated list of files to replace values in.
+    required: true
+  allow-multiple-replacements:
+    description: Whether or not to allow multiple replacements of each value in a file. Defaults to 'false'.
+    required: false
+  allow-no-replacements:
+    description: Whether or not to allow no replacements of each value in a file. Defaults to 'false'.
+    required: false
+  replacements:
+    description: A comma separated list of values to replace. Items can be any of (major, minor, patch, prerelease, full). Defaults to 'major, minor, patch, prerelease'.
+    required: false
+
+  major-type:
+    description: The type of literal to replace for the 'major' replacement. Can be (string, number, exact). Defaults to 'number'.
+    required: false
+  major-match:
+    description: The value to find for the 'major' replacement. Defaults to '377'.
+    required: false
+  minor-type:
+    description: The type of literal to replace for the 'minor' replacement. Can be (string, number, exact). Defaults to 'number'.
+    required: false
+  minor-match:
+    description: The value to find for the 'minor' replacement. Defaults to '389'.
+    required: false
+  patch-type:
+    description: The type of literal to replace for the 'patch' replacement. Can be (string, number, exact). Defaults to 'number'.
+    required: false
+  patch-match:
+    description: The value to find for the 'patch' replacement. Defaults to '368'.
+    required: false
+  prerelease-type:
+    description: The type of literal to replace for the 'prerelease' replacement. Can be (string, number, exact). Defaults to 'string'.
+    required: false
+  prerelease-match:
+    description: The value to find for the 'prerelease' replacement. Defaults to 'PRERELEASE'.
+    required: false
+  full-type:
+    description: The type of literal to replace for the 'full' replacement. Can be (string, number, exact). Defaults to 'string'.
+    required: false
+  full-match:
+    description: The value to find for the 'full' replacement. Defaults to '377.389.368-PRERELEASE'.
+    required: false
+
+
+runs:
+  using: 'node12'
+  main: 'release/index.js'
