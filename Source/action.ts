@@ -3,11 +3,11 @@
 
 import { setFailed } from '@actions/core';
 import { Logger } from '@dolittle/github-actions.shared.logging';
+import { Coordinator } from './Coordinator';
 
 import { Inputs } from './inputs';
 import { ReplacementValues } from './ReplacementValues';
 import { ReplacerFactory } from './ReplacerFactory';
-import { ExactReplacer } from './Replacers/ExactReplacer';
 import { ValidatePerformedReplacements } from './ValidatePerformedReplacements';
 import { VersionInfoFileLoader } from './VersionInfoFileLoader';
 
@@ -22,25 +22,11 @@ export async function run() {
         const loader = new VersionInfoFileLoader(logger);
         const values = new ReplacementValues(inputs.version);
         const replacerFactory = new ReplacerFactory(values, logger);
-        const validator = new ValidatePerformedReplacements(inputs.replacements.map(_ => _.replacement), false, false);
+        const validator = new ValidatePerformedReplacements(inputs.replacements, inputs.allowMultipleReplacements, inputs.allowNoReplacements);
 
-        const files = await loader.loadAll(inputs.filesToUpdate);
+        const coordinator = new Coordinator(loader, replacerFactory, validator);
+        await coordinator.performFor(inputs.filesToUpdate, inputs.replacements);
 
-        const replacers = inputs.replacements.map(({replacement, type, match}) => replacerFactory.createFor(replacement, type, match));
-
-        for (const file of files) {
-            file.execute(replacers);
-        }
-
-        for (const file of files) {
-            validator.validateFile(file);
-        }
-
-        for (const file of files) {
-            await file.persist();
-        }
-
-        // Put your code in here
     } catch (error) {
         fail(error as Error);
     }

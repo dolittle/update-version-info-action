@@ -10,6 +10,10 @@ import { ReplacerResult } from './ReplacerResult';
  * Represents an abstract implementation of {@link IReplacer}.
  */
 export abstract class Replacer implements IReplacer {
+    /**
+     * Initialises a new instance of the {@link Replacer} class.
+     * @param replacement The {@link Replacement} that this replacer performs replacements for.
+     */
     constructor(
         protected readonly replacement: Replacement
     ) {}

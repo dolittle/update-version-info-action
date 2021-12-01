@@ -8,6 +8,12 @@ import { Replacer } from './Replacer';
  * Represents a {@link Replacer} that replaces exact matches of a string with another string.
  */
 export class ExactReplacer extends Replacer {
+    /**
+     * Initialises a new instance of the {@link ExactReplacer} class.
+     * @param replacement The {@link Replacement} that this replacer performs replacements for.
+     * @param _match The string used to match the exact values to replace.
+     * @param _value The value used to replace the matches with.
+     */
     constructor(
         replacement: Replacement,
         private readonly _match: string,

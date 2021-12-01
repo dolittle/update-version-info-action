@@ -8,6 +8,12 @@ import { Replacer } from './Replacer';
  * Represents an abstract implementation of {@link Replacer} that handles language specific literal representations.
  */
 export abstract class LanguageSpecificReplacer extends Replacer {
+    /**
+     * Initialises a new instance of the {@link LanguageSpecificReplacer} class.
+     * @param replacement The {@link Replacement} that this replacer performs replacements for.
+     * @param _match The string used to match the values to replace.
+     * @param _value The value used to replace the matches with.
+     */
     constructor(
         replacement: Replacement,
         protected readonly _match: string,

@@ -4,6 +4,9 @@
 import { IVersionInfoFile } from './IVersionInfoFile';
 import { PerformedReplacement } from './PerformedReplacement';
 
+/**
+ * Defines a system that can validate performed replacements before persisting.
+ */
 export interface IValidatePerformedReplacements {
     /**
      * Validates the list of {@link PerformedReplacement} for a specified file, throwing an error if not considered valid.
