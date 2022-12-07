@@ -1,7 +1,7 @@
 # GitHub Action - Update VersionInfo Files
 This GitHub action updates version info in source files based on the provided semantic version. This can be used before building to include the build information in released binaries.
 
-![Github JavaScript Actions CI/CD](https://github.com/dolittle/repository-here/workflows/Github%20JavaScript%20Actions%20CI/CD/badge.svg)
+![Github JavaScript Actions CI/CD](https://github.com/dolittle/update-version-info-action/workflows/Github%20JavaScript%20Actions%20CI/CD/badge.svg)
 
 ### Pre requisites
 Create a workflow `.yml` file in your `.github/workflows` directory. An [example workflow](#example-workflow) is available below.
@@ -58,7 +58,7 @@ jobs:
       - name: Update versioninfo
         uses: dolittle/update-version-info-action@v1
         with:
-          version: ${{ steps.context.outputs.current-version }}
+          version: ${{ steps.increment-version.outputs.next-version }}
           files-to-update: |
             Source/VersionInfo.cs
             Source/VersionInfo.go
