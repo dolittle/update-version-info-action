@@ -9,8 +9,8 @@ import { ReplacerResult } from './ReplacerResult';
 export interface IReplacer {
     /**
      * Executes the replacements on the provided contents.
-     * @param path The the path of the file to modify.
-     * @param contents The contents to modify with replacements.
+     * @param path - The the path of the file to modify.
+     * @param contents - The contents to modify with replacements.
      */
     execute(path: string, contents: string): ReplacerResult;
 }

@@ -11,9 +11,9 @@ import { IReplacer } from './Replacers/IReplacer';
 export interface IReplacerFactory {
     /**
      * Creates an {@link IReplacer} for the provided inputs.
-     * @param replacement The replacement to create a replacer for.
-     * @param type The replecement type to use.
-     * @param match The pattern to match in the contents.
+     * @param replacement - The replacement to create a replacer for.
+     * @param type - The replecement type to use.
+     * @param match - The pattern to match in the contents.
      */
     createFor(replacement: Replacement, type: ReplacementType, match: string): IReplacer;
 }

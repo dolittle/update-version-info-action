@@ -12,7 +12,7 @@ import { ReplacerResult } from './ReplacerResult';
 export abstract class Replacer implements IReplacer {
     /**
      * Initialises a new instance of the {@link Replacer} class.
-     * @param replacement The {@link Replacement} that this replacer performs replacements for.
+     * @param {Replacement} replacement - The {@link Replacement} that this replacer performs replacements for.
      */
     constructor(
         protected readonly replacement: Replacement
@@ -45,13 +45,13 @@ export abstract class Replacer implements IReplacer {
 
     /**
      * Gets the {@link RegExp} to use for finding replacements for the specified path.
-     * @param path The path of the file to replace contents of.
+     * @param path - The path of the file to replace contents of.
      */
     protected abstract getExpressionFor(path: string): RegExp;
 
     /**
      * Get the value to replace matches with for the specified path.
-     * @param path The path of the file to replace contents of.
+     * @param path - The path of the file to replace contents of.
      */
     protected abstract getValueFor(path: string): string;
 }

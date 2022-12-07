@@ -7,12 +7,12 @@ import { Replacement } from './Configuration/Replacement';
 import { IReplacementValues } from './IReplacementValues';
 
 /**
- * Represents an implementation of {@link IReplacementValues} that returns replacement values from a {@link SemVer}
+ * Represents an implementation of {@link IReplacementValues} that returns replacement values from a {@link SemVer}.
  */
 export class ReplacementValues implements IReplacementValues {
     /**
      * Initialises a new instance of the {@link ReplacementValues} class.
-     * @param _version The {@link SemVer} to get replacement values from.
+     * @param {Replacement} _version - The {@link SemVer} to get replacement values from.
      */
     constructor(
         private readonly _version: SemVer

@@ -8,8 +8,8 @@ export type Replacement = 'major' | 'minor' | 'patch' | 'prerelease' | 'full';
 
 /**
  * Checks whether the provided value is a {@link Replacement}.
- * @param value The value to check.
- * @returns A value indicating whether the value is a valid {@link Replacement}.
+ * @param {string} value - The value to check.
+ * @returns {boolean} A value indicating whether the value is a valid {@link Replacement}.
  */
 export const isReplacement = (value: string): value is Replacement => {
     switch (value) {

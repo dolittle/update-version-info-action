@@ -1,7 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { Logger } from '@dolittle/github-actions.shared.logging';
+import { ILogger } from '@dolittle/github-actions.shared.logging';
 import fs from 'fs';
 
 import { IReplacer } from './Replacers/IReplacer';
@@ -21,17 +21,17 @@ export class VersionInfoFile implements IVersionInfoFile {
 
     /**
      * Initialises a new instance of the {@link VersionInfoFile} class.
-     * @param path The path of the file on the local file system.
-     * @param _logger The {@link Logger} to use for logging.
+     * @param {string} path - The path of the file on the local file system.
+     * @param {ILogger} _logger - The {@link Logger} to use for logging.
      */
     constructor(
         readonly path: string,
-        private readonly _logger: Logger
+        private readonly _logger: ILogger
     ) {}
 
     /**
      * Loads the contents of the file on the local file system to memory.
-     * @returns A {@link Promise} that represents the asynchronous operation.
+     * @returns {Promise<void>} - A {@link Promise} that represents the asynchronous operation.
      */
     load(): Promise<void> {
         return new Promise((resolve, reject) => {

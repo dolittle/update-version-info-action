@@ -1,7 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { Logger } from '@dolittle/github-actions.shared.logging';
+import { ILogger } from '@dolittle/github-actions.shared.logging';
 import { Replacement } from './Configuration/Replacement';
 import { ReplacementType } from './Configuration/ReplacementType';
 import { IReplacementValues } from './IReplacementValues';
@@ -15,9 +15,14 @@ import { StringReplacer } from './Replacers/StringReplacer';
  * Defines a system that can create instances of {@link IReplacer}.
  */
 export class ReplacerFactory implements IReplacerFactory {
+    /**
+     * Initializes a new instance of the {ReplacerFactory} class.
+     * @param {IReplacementValues} _values - The replacement values.
+     * @param {ILogger} _logger - The logger.
+     */
     constructor(
         private readonly _values: IReplacementValues,
-        private readonly _logger: Logger
+        private readonly _logger: ILogger
     ) {}
 
     /** @inheritdoc */

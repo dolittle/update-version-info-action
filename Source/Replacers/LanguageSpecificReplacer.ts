@@ -10,9 +10,9 @@ import { Replacer } from './Replacer';
 export abstract class LanguageSpecificReplacer extends Replacer {
     /**
      * Initialises a new instance of the {@link LanguageSpecificReplacer} class.
-     * @param replacement The {@link Replacement} that this replacer performs replacements for.
-     * @param _match The string used to match the values to replace.
-     * @param _value The value used to replace the matches with.
+     * @param {Replacement} replacement - The {@link Replacement} that this replacer performs replacements for.
+     * @param {string} _match - The string used to match the values to replace.
+     * @param {string} _value - The value used to replace the matches with.
      */
     constructor(
         replacement: Replacement,
@@ -24,8 +24,8 @@ export abstract class LanguageSpecificReplacer extends Replacer {
 
     /**
      * Wraps a literal value for the specified file type.
-     * @param value The literal value to wrap.
-     * @param path The path of the file to replace contents of.
+     * @param value - The literal value to wrap.
+     * @param path - The path of the file to replace contents of.
      */
     protected abstract wrapLiteral(value: string, path: string): string;
 

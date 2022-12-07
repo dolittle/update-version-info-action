@@ -1,7 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { Logger } from '@dolittle/github-actions.shared.logging';
+import { ILogger } from '@dolittle/github-actions.shared.logging';
 import { IVersionInfoFile } from './IVersionInfoFile';
 import { IVersionInfoFileLoader } from './IVersionInfoFileLoader';
 import { VersionInfoFile } from './VersionInfoFile';
@@ -12,10 +12,10 @@ import { VersionInfoFile } from './VersionInfoFile';
 export class VersionInfoFileLoader implements IVersionInfoFileLoader {
     /**
      * Initialises a new instance of the {@link VersionInfoFileLoader} class.
-     * @param _logger The {@link Logger} to use for logging.
+     * @param {ILogger} _logger - The {@link ILogger} to use for logging.
      */
     constructor(
-        private readonly _logger: Logger
+        private readonly _logger: ILogger
     ) {}
 
     /** @inheritdoc */
