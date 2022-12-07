@@ -8,8 +8,8 @@
 
 /**
  * Checks whether the provided value is a {@link ReplacementType}.
- * @param value The value to check.
- * @returns A value indicating whether the value is a valid {@link ReplacementType}.
+ * @param {string} value - The value to check.
+ * @returns {boolean} A value indicating whether the value is a valid {@link ReplacementType}.
  */
 export const isReplacementType = (value: string): value is ReplacementType => {
     switch (value) {

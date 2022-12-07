@@ -9,6 +9,12 @@ import { IVersionInfoFile } from './IVersionInfoFile';
  * Represents an implementation of {@link IValidatePerformedReplacements} that checks for multiple or no replacements for a set of specified replacements.
  */
 export class ValidatePerformedReplacements implements IValidatePerformedReplacements {
+    /**
+     * Initializes a new instance of the {ValidatePerformedReplacements} class.
+     * @param {ReplacementConfig[]} _specifiedReplacements - The replacements.
+     * @param {boolean} _allowMultipleReplacements - Whether to allow multiple replacements.
+     * @param {boolean} _allowNoReplacements - Whether to allow no replacements.
+     */
     constructor(
         private readonly _specifiedReplacements: ReplacementConfig[],
         private readonly _allowMultipleReplacements: boolean,

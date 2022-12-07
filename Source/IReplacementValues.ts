@@ -9,7 +9,7 @@ import { Replacement } from './Configuration/Replacement';
 export interface IReplacementValues {
     /**
      * Gets the value to replace for the provided replacement.
-     * @param replacement The {@link Replacement} to get the value for.
+     * @param replacement - The {@link Replacement} to get the value for.
      */
     getValueFor(replacement: Replacement): string;
 }

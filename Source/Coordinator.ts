@@ -12,9 +12,9 @@ import { IVersionInfoFileLoader } from './IVersionInfoFileLoader';
 export class Coordinator {
     /**
      * Initialises a new instance of the {@link Coordinator} class.
-     * @param _loader The {@link IVersionInfoFileLoader} to use to load files.
-     * @param _replacers The {@link IReplacerFactory} to use to create replacers.
-     * @param _validator The {@link IValidatePerformedReplacements} to use to validate performed replacements before persisting.
+     * @param {IVersionInfoFileLoader} _loader - The {@link IVersionInfoFileLoader} to use to load files.
+     * @param {IReplacerFactory} _replacers - The {@link IReplacerFactory} to use to create replacers.
+     * @param {IValidatePerformedReplacements} _validator - The {@link IValidatePerformedReplacements} to use to validate performed replacements before persisting.
      */
     constructor(
         private readonly _loader: IVersionInfoFileLoader,
@@ -23,14 +23,13 @@ export class Coordinator {
     ) {}
 
     /**
-     * Performs the replacement pipeline for the specified files
-     * @param paths The paths to the files to replace version info in.
+     * Performs the replacement pipeline for the specified files.
+     * @param {string[]} paths - The paths to the files to replace version info in.
+     * @param {ReplacementConfig[]} replacements - The replacements.
      */
     async performFor(paths: string[], replacements: ReplacementConfig[]): Promise<void> {
         const files = await this._loader.loadAll(paths);
-
         const replacers = replacements.map(({replacement, type, match}) => this._replacers.createFor(replacement, type, match));
-
         for (const file of files) {
             file.execute(replacers);
             this._validator.validateFile(file);

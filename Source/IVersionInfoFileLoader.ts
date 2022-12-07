@@ -9,7 +9,7 @@ import { IVersionInfoFile } from './IVersionInfoFile';
 export interface IVersionInfoFileLoader {
     /**
      * Loads all the files from the provided paths.
-     * @param files The paths of the files to load.
+     * @param files - The paths of the files to load.
      */
     loadAll(files: string[]): Promise<IVersionInfoFile[]>;
 }

@@ -15,7 +15,7 @@ export interface IVersionInfoFile {
 
     /**
      * Executes the provided replacers and stores the results.
-     * @param replacers The instances of {@link IReplacer} to execute.
+     * @param replacers - The instances of {@link IReplacer} to execute.
      */
     execute(replacers: IReplacer[]): void;
 

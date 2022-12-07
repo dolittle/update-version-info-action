@@ -14,6 +14,9 @@ import { VersionInfoFileLoader } from './VersionInfoFileLoader';
 const logger = new Logger();
 
 run();
+/**
+ * Runs the action.
+ */
 export async function run() {
     try {
         const inputs = Inputs.parse();
@@ -27,7 +30,7 @@ export async function run() {
         const coordinator = new Coordinator(loader, replacerFactory, validator);
         await coordinator.performFor(inputs.filesToUpdate, inputs.replacements);
 
-    } catch (error) {
+    } catch (error: any) {
         fail(error as Error);
     }
 }

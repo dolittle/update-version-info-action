@@ -3,7 +3,7 @@
 
 import { getBooleanInput, getInput } from '@actions/core';
 import semver, { SemVer } from 'semver';
-import { Logger } from '@dolittle/github-actions.shared.logging';
+import { ILogger } from '@dolittle/github-actions.shared.logging';
 import { ReplacementConfig } from './Configuration/ReplacementConfig';
 import { isReplacement, Replacement } from './Configuration/Replacement';
 import { isReplacementType, ReplacementType } from './Configuration/ReplacementType';
@@ -14,11 +14,11 @@ import { isReplacementType, ReplacementType } from './Configuration/ReplacementT
 export class Inputs {
     /**
      * Initialises a new instance of the {@link Inputs} class.
-     * @param version The version to update the version info files with.
-     * @param filesToUpdate The version info files to update.
-     * @param replacements The replacements to perform.
-     * @param allowMultipleReplacements Whether or not to allow multiple replacements to occur in a file.
-     * @param allowNoReplacements Whether or not to allow no replacements to occur in a file.
+     * @param {SemVer} version - The version to update the version info files with.
+     * @param {string[]} filesToUpdate - The version info files to update.
+     * @param {ReplacementConfig[]} replacements - The replacements to perform.
+     * @param {boolean} allowMultipleReplacements - Whether or not to allow multiple replacements to occur in a file.
+     * @param {boolean} allowNoReplacements - Whether or not to allow no replacements to occur in a file.
      */
     constructor(
         readonly version: SemVer,
@@ -30,9 +30,9 @@ export class Inputs {
 
     /**
      * Logs the values of the inputs to the provided logger.
-     * @param logger The {@link Logger} to write to.
+     * @param {ILogger} logger - The {@link ILogger} to write to.
      */
-    log(logger: Logger): void {
+    log(logger: ILogger): void {
         logger.info('Inputs:');
         logger.info(`  version: '${this.version}'`);
         logger.info(`  files-to-update: '${this.filesToUpdate.join(', ')}'`);
@@ -46,7 +46,7 @@ export class Inputs {
 
     /**
      * Parses the inputs provided to the action.
-     * @returns The parsed {@link Inputs}.
+     * @returns {Inputs} - The parsed {@link Inputs}.
      */
     static parse(): Inputs {
         return new Inputs(
@@ -78,8 +78,7 @@ export class Inputs {
         const input = getInput('replacements', { required: false });
 
         const configs: ReplacementConfig[] = [];
-        for (const replacement of this.splitTrimIgnoreEmpty(input, ','))
-        {
+        for (const replacement of this.splitTrimIgnoreEmpty(input, ',')) {
             if (isReplacement(replacement)) {
                 const config = this.getReplacementConfig(replacement);
                 configs.push(config);
